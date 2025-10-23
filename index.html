@@ -26,51 +26,41 @@
       text-align: center;
       padding: 2rem;
     }
-    h1 {
-      color: var(--rojo-oscuro);
-      margin-bottom: .5rem;
-    }
-    p {
-      max-width: 700px;
-      line-height: 1.6;
-    }
+    header { margin-bottom: .5rem; }
+    h1 { color: var(--rojo-oscuro); margin: 0 0 .5rem; }
+    p { max-width: 780px; line-height: 1.6; margin: .25rem auto 0; }
     .botones {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2rem;
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 1rem; margin-top: 2rem;
     }
     a.boton {
-      background: var(--rojo-principal);
-      color: var(--blanco);
-      padding: .9rem 1.4rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 600;
-      border: 1px solid var(--rojo-oscuro);
+      background: var(--rojo-principal); color: var(--blanco);
+      padding: .9rem 1.4rem; border-radius: 999px; text-decoration: none;
+      font-weight: 600; border: 1px solid var(--rojo-oscuro);
       transition: all .25s ease;
     }
-    a.boton:hover {
-      background: var(--rojo-oscuro);
-      transform: translateY(-2px);
-    }
-    footer {
-      margin-top: 3rem;
-      color: #555;
-      font-size: .9rem;
-    }
+    a.boton:hover { background: var(--rojo-oscuro); transform: translateY(-2px); }
+    .nota { margin-top: 1rem; font-size: .9rem; color: #555; }
+    footer { margin-top: 3rem; color: #555; font-size: .9rem; }
   </style>
 </head>
 <body>
-  <h1>Procesos de Manufactura Industrial</h1>
-  <p>Material compilado para la <strong>Licenciatura en Diseño de Productos y Experiencias</strong>, elaborado por el <strong>Dr. Erick Iroel Heredia Carrillo</strong> entre agosto y noviembre de 2025.  
-  Este sitio reúne materiales de apoyo para comprender los principales <em>procesos de transformación de materiales</em> utilizados en la manufactura industrial contemporánea.</p>
+  <header>
+    <h1>Procesos de Manufactura Industrial</h1>
+    <p>
+      Material compilado para la <strong>Licenciatura en Diseño de Productos y Experiencias</strong>, elaborado por el
+      <strong>Dr. Erick Iroel Heredia Carrillo</strong> entre <strong>agosto y noviembre de 2025</strong>. Este sitio reúne materiales
+      de apoyo para comprender los principales <em>procesos de transformación de materiales</em> usados en la industria.
+    </p>
+  </header>
 
   <div class="botones">
     <a class="boton" href="procesos_plasticos.html" target="_blank">Procesos de Plásticos</a>
     <a class="boton" href="procesos_metales.html" target="_blank">Procesos de Metales</a>
+    <a class="boton" href="procesos_ceramicos.html" target="_blank">Procesos de Cerámicos</a>
   </div>
+
+  <p class="nota">Cada botón abre el material en una nueva pestaña para facilitar la navegación en clase.</p>
 
   <footer>© 2025 · Dr. Erick Iroel Heredia Carrillo · Todos los derechos reservados</footer>
 </body>

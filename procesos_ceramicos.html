@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Procesos de Transformación de Cerámicos</title>
+  <style>
+    :root {
+      --rojo-principal: #c62828;
+      --rojo-oscuro: #8e0000;
+      --gris-fondo: #f5f5f7;
+      --gris-borde: #e3e3ea;
+      --texto: #222;
+      --blanco: #fff;
+      --link-activo: #ffe4e4;
+    }
+
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--gris-fondo);
+      color: var(--texto);
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        'header header'
+        'sidebar main';
+      min-height: 100vh;
+    }
+
+    header {
+      grid-area: header;
+      position: sticky; top: 0; z-index: 20;
+      display: flex; align-items: center; gap: .75rem;
+      padding: .75rem 1rem;
+      background: linear-gradient(0deg, #ffffffcc, #ffffffee);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--gris-borde);
+    }
+    .brand { display: flex; align-items: baseline; gap: .5rem; }
+    .brand h1 { font-size: 1.05rem; margin: 0; color: var(--rojo-oscuro); }
+    .brand small { color: #555; }
+
+    .menu-toggle {
+      appearance: none; border: 1px solid var(--gris-borde);
+      background: var(--blanco); border-radius: 10px; padding: .5rem .75rem;
+      font-weight: 600; color: var(--rojo-oscuro);
+    }
+
+    nav {
+      grid-area: sidebar;
+      background: var(--rojo-principal);
+      color: var(--blanco);
+      padding: 1rem 1rem 2rem;
+      position: sticky; top: 3.25rem;
+      height: calc(100vh - 3.25rem);
+      overflow: auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08) inset;
+      transition: transform .25s ease;
+    }
+    nav h2 { font-size: 1.1rem; margin: .25rem 0 1rem; border-bottom: 1px solid #ffffff44; padding-bottom: .5rem; }
+    nav a { display: block; color: var(--blanco); text-decoration: none; padding: .4rem .45rem; border-radius: 8px; }
+    nav a:hover { background: #ffffff22; }
+    nav a.active { background: var(--link-activo); color: var(--rojo-oscuro); font-weight: 700; }
+    .nav-group { margin-top: .75rem; font-weight: 700; opacity: .95; }
+
+    main { grid-area: main; padding: 1rem clamp(.75rem, 2.5vw, 2rem) 3rem; }
+    .panel { background: var(--blanco); border: 1px solid var(--gris-borde); border-radius: 14px; padding: 1rem 1.1rem; margin-bottom: 1rem; box-shadow: 0 6px 18px rgba(0,0,0,.05); }
+    h1, h2, h3 { color: var(--rojo-oscuro); }
+
+    .video { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; border: 1px solid var(--gris-borde); background:#000; }
+    .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .youtube-link { text-align: right; margin-top: 6px; }
+    .youtube-link a { color: #c62828; font-weight: 600; text-decoration: none; }
+    .youtube-link a:hover { text-decoration: underline; }
+
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .pill { display: inline-block; padding: .15rem .5rem; border-radius: 999px; background: #ffe4e4; color: var(--rojo-oscuro); border: 1px solid #f6bcbc; font-size: .8rem; }
+    .proceso { scroll-margin-top: 90px; }
+
+    .back-to-top { position: fixed; right: 16px; bottom: 16px; z-index: 30; display: none; align-items: center; gap: .4rem; padding: .6rem .8rem; border: 1px solid var(--gris-borde); border-radius: 999px; background: var(--blanco); color: var(--rojo-oscuro); font-weight: 700; cursor: pointer; box-shadow: 0 8px 18px rgba(0,0,0,.12); }
+    .back-to-top.show { display: inline-flex; }
+
+    footer { text-align: center; padding: 1rem; font-size: .9rem; color: #555; }
+
+    @media (max-width: 960px) {
+      body { grid-template-columns: 1fr; grid-template-areas: 'header' 'main'; }
+      nav { position: fixed; top: 3.25rem; left: 0; right: 0; height: calc(100vh - 3.25rem); transform: translateX(-100%); }
+      nav.open { transform: translateX(0); }
+      main { padding: 1rem 1rem 3.5rem; }
+      .cols { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-toggle" aria-controls="sidebar" aria-expanded="false">Menú</button>
+    <div class="brand">
+      <h1>Procesos de Transformación de Cerámicos</h1>
+      <small>Tradicionales · Construcción manual · Prensado · Moldeo · Cocción</small>
+    </div>
+  </header>
+
+  <nav id="sidebar" aria-label="Navegación">
+    <h2>Índice</h2>
+    <a href="#clasificacion">Clasificación y materias</a>
+    <div class="nav-group">Construcción manual</div>
+    <a href="#constr-manual">Generalidades</a>
+    <a href="#churros">Churros (coil building)</a>
+    <a href="#placa">Placa (slab)</a>
+    <a href="#torno">Torno</a>
+    <a href="#torno-tarraja">Torno–Tarraja (jigger/jolley)</a>
+    <div class="nav-group">Moldeo y conformado</div>
+    <a href="#moldeo">Moldeo / Colado en barbotina</a>
+    <a href="#compresion">Compresión / Prensado</a>
+    <a href="#extrusion">Extrusión</a>
+    <div class="nav-group">Materiales y cocción</div>
+    <a href="#barro-gres">Barro, Gres, Porcelana</a>
+    <a href="#alta-baja">Alta vs Baja temperatura</a>
+    <a href="#yeso">Yeso (moldes y vaciados)</a>
+    <a href="#concreto">Concreto (cementicios)</a>
+    <div class="nav-group">Acabado / Horno</div>
+    <a href="#cocciones">Cocciones y curvas</a>
+    <a href="#defectos">Defectos típicos y control</a>
+    <div class="nav-group">Acabados superficiales</div>
+    <a href="#esmalte">Esmalte</a>
+    <a href="#engobe">Engobe</a>
+    <a href="#raku">Raku</a>
+    <a href="#estampas">Estampas cerámicas (decals)</a>
+    <a href="#otros-acabados">Otros acabados (óxidos, sigillata, sgraffito, mishima, lustres)</a>
+  </nav>
+
+  <main>
+    <section id="intro" class="panel">
+      <p>Recurso universitario (Diseño Industrial) sobre materiales cerámicos tradicionales y procesos: construcción manual (churros, placa, torno), moldeo/colado, compresión/prensado, extrusión y cocciones. Incluye yeso y concretos como materiales afines de uso habitual en taller. <strong>Elaborado por Dr. Iroel Heredia · 2025</strong>.</p>
+    </section>
+
+    <section id="clasificacion" class="panel proceso">
+      <h2>Clasificación y materias</h2>
+      <div class="cols">
+        <div>
+          <h3>Familias</h3>
+          <ul>
+            <li><b>Cerámicos tradicionales</b>: arcillas (barro), gres, loza, porcelana; ladrillo, teja, azulejo.</li>
+            <li><b>Cerámicos avanzados</b>: alúmina, circonia, carburo de silicio, nitruros; aislantes y estructurales.</li>
+            <li><b>Cementicios</b> (afines): yeso (escayola) y concreto/cemento Portland.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Propiedades clave</h3>
+          <ul>
+            <li>Plasticidad (contenido de arcilla/plasticantes) vs trabajabilidad.</li>
+            <li>Contracción en secado y cocción; granulometría y porosidad.</li>
+            <li>Curva térmica de cocción y atmósfera (oxidante/reductora).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONSTRUCCIÓN MANUAL -->
+    <section id="constr-manual" class="panel proceso">
+      <h2>Construcción manual (visión general)</h2>
+      <div class="cols">
+        <div>
+          <p>Conjunto de técnicas para conformar piezas sin moldes rígidos: amasado/centrado, unión por barbotina, control de humedad y secado lento para evitar grietas. Útil en prototipado y series cortas.</p>
+          <ul>
+            <li><span class="pill">Ventajas</span> Flexibilidad formal, baja inversión, aprendizaje táctil.</li>
+            <li><span class="pill">Limitaciones</span> Repetibilidad limitada, variación dimensional.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_CONSTR" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_CONSTR">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="churros" class="panel proceso">
+      <h2>Churros (coil building)</h2>
+      <div class="cols">
+        <div>
+          <p>Formación por rollos de arcilla colocados en espiral y alisados. Control de humedad/plasticidad y espesores para evitar colapsos. Refuerzos internos temporales ayudan en formas altas.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_CHURROS" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_CHURROS">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="placa" class="panel proceso">
+      <h2>Placa (slab building)</h2>
+      <div class="cols">
+        <div>
+          <p>Láminas de arcilla laminadas a espesor uniforme, cortadas y unidas. Importa el secado parejo sobre placas porosas y el biselado de cantos. Útil para cuerpos planos/cúbicos.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_PLACA" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_PLACA">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="torno" class="panel proceso">
+      <h2>Torno</h2>
+      <div class="cols">
+        <div>
+          <p>Conformado por rotación: centrado, apertura, levantado de paredes y afinado. Control de velocidad, presión de dedos/herramienta y consistencia. Secado con collarines y corte con hilo.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_TORNO" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_TORNO">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="torno-tarraja" class="panel proceso">
+      <h2>Torno–Tarraja (jigger/jolley)</h2>
+      <div class="cols">
+        <div>
+          <p>Producción semiseriada con moldes/plantillas (yeso) en torno. La tarraja perfila el interior/exterior de piezas repetibles (platos, tazas). Exige control de humedad del molde.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_TARRAJA" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_TARRAJA">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOLDEO / CONFORMADO -->
+    <section id="moldeo" class="panel proceso">
+      <h2>Moldeo / Colado en barbotina</h2>
+      <div class="cols">
+        <div>
+          <p>Suspensión de arcilla (barbotina) vertida en moldes de yeso que absorben agua, formando una cáscara. Control de viscosidad, defloculantes, tiempos de vaciado y oreo. Ideal para formas complejas y paredes finas.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_MOLDEO" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_MOLDEO">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="compresion" class="panel proceso">
+      <h2>Compresión / Prensado</h2>
+      <div class="cols">
+        <div>
+          <p>Prensado de polvos o pastas (baja humedad) en moldes, seguido de secado y cocción. Variantes: prensado isostático para densidad uniforme. Variables: presión, humedad, granulometría, desmoldeo.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_COMPRESION" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_COMPRESION">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="extrusion" class="panel proceso">
+      <h2>Extrusión</h2>
+      <div class="cols">
+        <div>
+          <p>Forzado de pasta plástica a través de una boquilla para tejas, ladrillos, tubos de gres. Requiere control de humedad, presión y velocidad; corte por alambre y secado gradual.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_EXTRUSION_CER" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_EXTRUSION_CER">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATERIALES Y COCCIÓN -->
+    <section id="barro-gres" class="panel proceso">
+      <h2>Barro, Gres y Porcelana</h2>
+      <div class="cols">
+        <div>
+          <p><b>Barro/loza</b> (baja T): más poroso; <b>Gres</b> (alta T): vitrificado y resistente; <b>Porcelana</b>: blanca, densa y de alta dureza. La curva térmica ajusta densificación y color/esmaltado.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_GRES" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_GRES">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="alta-baja" class="panel proceso">
+      <h2>Alta vs Baja temperatura</h2>
+      <div class="cols">
+        <div>
+          <p>Rangos típicos: <b>baja T</b> (cone ~06 a 04; 1000–1060 °C), <b>media</b> (cone ~04 a 4; 1060–1180 °C) y <b>alta</b> (cone ~6 a 12; 1220–1300 °C). La vitrificación, color de engobes y resistencia dependen de la T y atmósfera.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_TEMPERATURAS" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_TEMPERATURAS">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="yeso" class="panel proceso">
+      <h2>Yeso (moldes y vaciados)</h2>
+      <div class="cols">
+        <div>
+          <p>El yeso se usa para moldes por su absorción y estabilidad dimensional. Proporción agua/yeso, desaireado y fraguado determinan porosidad y resistencia. Mantenimiento: secado completo entre coladas.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_GYPSUM" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_GYPSUM">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="concreto" class="panel proceso">
+      <h2>Concreto (cementicios)</h2>
+      <div class="cols">
+        <div>
+          <p>Mezcla de cemento, agregados y agua; colado en moldes y curado. Relación a/c, granulometría y vibrado controlan resistencia y porosidad. Útil para moldes permanentes y prototipos estructurales.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_CONCRETO" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_CONCRETO">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COCCIONES / CONTROL -->
+    <section id="cocciones" class="panel proceso">
+      <h2>Cocciones y curvas</h2>
+      <div class="cols">
+        <div>
+          <p>Curvas típicas: secado (100–200 °C), deshidroxilación (450–600 °C), cuarzo 573 °C, sinterización/vitrificación (según pasta). Control de rampas, remojo, enfriamiento y atmósfera; conos pirométricos como testigo.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_COCCION" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_COCCION">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="defectos" class="panel proceso">
+      <h2>Defectos típicos y control</h2>
+      <div class="cols">
+        <div>
+          <ul>
+            <li>Grietas por secado/cocción: gradientes de humedad/temperatura.</li>
+            <li>Exfoliaciones/laminaciones: mala unión entre churros/placas.</li>
+            <li>Estallidos por vapor: secado insuficiente antes de hornear.</li>
+            <li>Deformaciones/alabeos: apoyo irregular, curvaturas por gravedad.</li>
+            <li>Puntos de cal/salitre en concretos y lozas.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_DEFECTOS" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_DEFECTOS">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACABADOS -->
+    <section id="esmalte" class="panel proceso">
+      <h2>Esmalte (glaze)</h2>
+      <div class="cols">
+        <div>
+          <p>Recubrimiento vítreo que se funde en la cocción para dar color, brillo y sellado. Variables: composición (sílice, fundentes, alúmina), viscosidad de la suspensión, método de aplicación (inmersión, aspersión, vertido) y compatibilidad térmica con el cuerpo (coeficiente de expansión) para evitar <em>craquelado</em> o <em>descascarillado</em>.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_ESMALTE" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_ESMALTE">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="engobe" class="panel proceso">
+      <h2>Engobe (slip)</h2>
+      <div class="cols">
+        <div>
+          <p>Capa de barbotina coloreada/apta para adherirse al cuerpo antes del esmaltado. Se usa para uniformar color y crear efectos gráficos. Importa la contracción relativa cuerpo–engobe y el punto de maduración para evitar descascarillados.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_ENGOBE" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_ENGOBE">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="raku" class="panel proceso">
+      <h2>Raku</h2>
+      <div class="cols">
+        <div>
+          <p>Técnica de cocción rápida: se saca la pieza incandescente del horno y se reduce en material combustible (serrín, hojas), generando craquelados y metalizados. Requiere esmaltes raku y choque térmico controlado.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_RAKU" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_RAKU">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="estampas" class="panel proceso">
+      <h2>Estampas cerámicas (decals)</h2>
+      <div class="cols">
+        <div>
+          <p>Transferencias con diseños impresos (serigrafía o impresión digital) sobre soporte que se aplica y se cuece para vitrificar el pigmento. Considerar compatibilidad de temperatura del decal y del esmalte, y tiempos de horneado.</p>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_DECALS" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_DECALS">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="otros-acabados" class="panel proceso">
+      <h2>Otros acabados: óxidos, sigillata, sgraffito, mishima, lustres</h2>
+      <div class="cols">
+        <div>
+          <ul>
+            <li><b>Óxidos y lavados</b>: óxidos metálicos diluidos para realzar textura; sellado posterior con esmalte transparente si se requiere uso alimentario.</li>
+            <li><b>Terra sigillata</b>: barbotina muy fina pulida para brillo satinado a baja temperatura.</li>
+            <li><b>Sgraffito</b>: capa de engobe/esmalte raspada para revelar el cuerpo y generar gráficos.</li>
+            <li><b>Mishima</b>: incrustación de engobe en líneas incisas.</li>
+            <li><b>Lustres metálicos</b>: películas finas (oro, platino, bronce) a baja T; requieren horneada adicional.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="video"><iframe src="https://www.youtube.com/embed/VIDEO_ID_OTROS_ACABADOS" allowfullscreen loading="lazy"></iframe></div>
+          <div class="youtube-link"><a target="_blank" href="https://www.youtube.com/watch?v=VIDEO_ID_OTROS_ACABADOS">Abrir en YouTube ↗</a></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>Elaborado por Dr. Iroel Heredia · 2025</footer>
+  </main>
+
+  <button class="back-to-top" title="Volver arriba">▲ Arriba</button>
+
+  <script>
+    // Toggle menú móvil
+    const btn = document.querySelector('.menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    btn.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+
+    // Scroll suave
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (ev) => {
+        const id = a.getAttribute('href');
+        if (!id || id === '#') return;
+        const el = document.querySelector(id);
+        if (el) {
+          ev.preventDefault();
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', id);
+          if (window.matchMedia('(max-width: 960px)').matches) {
+            sidebar.classList.remove('open');
+            btn.setAttribute('aria-expanded','false');
+          }
+        }
+      });
+    });
+
+    // Scrollspy
+    const navLinks = Array.from(sidebar.querySelectorAll('a[href^="#"]'));
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        const id = e.target.id; const link = navLinks.find(a=>a.getAttribute('href') === `#${id}`);
+        if (!link) return; if (e.isIntersecting){ navLinks.forEach(a=>{a.classList.remove('active'); a.removeAttribute('aria-current');}); link.classList.add('active'); link.setAttribute('aria-current','true'); }
+      })
+    },{rootMargin:'-30% 0px -60% 0px', threshold:[0,1]});
+    sections.forEach(s=>io.observe(s));
+
+    // Botón Arriba
+    const toTop = document.querySelector('.back-to-top');
+    const toggleTop = () => { if (window.scrollY > 400) toTop.classList.add('show'); else toTop.classList.remove('show'); };
+    window.addEventListener('scroll', toggleTop, { passive:true }); toggleTop();
+    toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>
