@@ -1,66 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Procesos de Manufactura — Material Didáctico</title>
   <style>
-    :root {
-      --rojo-principal: #c62828;
-      --rojo-oscuro: #8e0000;
-      --gris-fondo: #f5f5f7;
-      --gris-borde: #e3e3ea;
-      --texto: #222;
-      --blanco: #fff;
+    :root{
+      --rojo-principal:#c62828; --rojo-oscuro:#8e0000;
+      --gris-fondo:#f5f5f7; --gris-borde:#e3e3ea;
+      --texto:#222; --blanco:#fff;
     }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
-      background: var(--gris-fondo);
-      color: var(--texto);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 2rem;
+    body{
+      margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,sans-serif;
+      background:var(--gris-fondo); color:var(--texto);
+      min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:2rem 1.25rem;
     }
-    header { margin-bottom: .5rem; }
-    h1 { color: var(--rojo-oscuro); margin: 0 0 .5rem; }
-    p { max-width: 780px; line-height: 1.6; margin: .25rem auto 0; }
-    .botones {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: 1rem; margin-top: 2rem;
+    .logo{display:flex; align-items:center; justify-content:center; margin-bottom:.75rem}
+    .logo img{height:64px; width:auto; display:block; filter: contrast(110%);}
+    header{max-width:900px; text-align:center; margin-bottom:.5rem}
+    h1{color:var(--rojo-oscuro); margin:.25rem 0 .5rem}
+    p{max-width:780px; line-height:1.6; margin:.25rem auto 0}
+    .botones{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin-top:2rem;
     }
-    a.boton {
-      background: var(--rojo-principal); color: var(--blanco);
-      padding: .9rem 1.4rem; border-radius: 999px; text-decoration: none;
-      font-weight: 600; border: 1px solid var(--rojo-oscuro);
-      transition: all .25s ease;
+    a.boton{
+      background:var(--rojo-principal); color:var(--blanco);
+      padding:.9rem 1.4rem; border-radius:999px; text-decoration:none; font-weight:600;
+      border:1px solid var(--rojo-oscuro); transition:all .25s ease;
     }
-    a.boton:hover { background: var(--rojo-oscuro); transform: translateY(-2px); }
-    .nota { margin-top: 1rem; font-size: .9rem; color: #555; }
-    footer { margin-top: 3rem; color: #555; font-size: .9rem; }
+    a.boton:hover{background:var(--rojo-oscuro); transform:translateY(-2px)}
+    .nota{margin-top:1rem; font-size:.9rem; color:#555}
+    footer{margin-top:3rem; color:#555; font-size:.9rem; text-align:center}
+    /* Si la imagen no carga, ocúltala para evitar “romper” el encabezado */
+    .logo img[onerror]{display:none}
   </style>
 </head>
 <body>
+  <div class="logo">
+    <img src="ibero_logo.png" alt="Universidad Iberoamericana" loading="lazy"
+         onerror="this.style.display='none'">
+  </div>
+
   <header>
     <h1>Procesos de Manufactura Industrial</h1>
     <p>
-      Material compilado para la <strong>Licenciatura en Diseño de Productos y Experiencias</strong>, elaborado por el
-      <strong>Dr. Erick Iroel Heredia Carrillo</strong> entre <strong>agosto y noviembre de 2025</strong>. Este sitio reúne materiales
-      de apoyo para comprender los principales <em>procesos de transformación de materiales</em> usados en la industria.
+      Material compilado para la <strong>Licenciatura en Diseño de Productos y Experiencias</strong>,
+      elaborado por el <strong>Dr. Erick Iroel Heredia Carrillo</strong> entre
+      <strong>agosto y noviembre de 2025</strong>. Este sitio reúne materiales de apoyo para comprender
+      los principales <em>procesos de transformación de materiales</em> usados en la industria.
     </p>
   </header>
 
-  <div class="botones">
-    <a class="boton" href="procesos_plasticos.html" target="_blank">Procesos de Plásticos</a>
-    <a class="boton" href="procesos_metales.html" target="_blank">Procesos de Metales</a>
-    <a class="boton" href="procesos_ceramicos.html" target="_blank">Procesos de Cerámicos</a>
-  </div>
+  <nav class="botones" aria-label="Navegación a materiales">
+    <a class="boton" href="procesos_plasticos.html" target="_blank" rel="noopener">Procesos de Plásticos</a>
+    <a class="boton" href="procesos_metales.html" target="_blank" rel="noopener">Procesos de Metales</a>
+    <a class="boton" href="procesos_ceramicos.html" target="_blank" rel="noopener">Procesos de Cerámicos</a>
+    <a class="boton" href="procesos_maderas.html" target="_blank" rel="noopener">Maderas y Materiales Orgánicos</a>
+  </nav>
 
-  <p class="nota">Cada botón abre el material en una nueva pestaña para facilitar la navegación en clase.</p>
+  <p class="nota">Cada botón abre el material en una nueva pestaña (comodidad total para clase y proyector).</p>
 
   <footer>© 2025 · Dr. Erick Iroel Heredia Carrillo · Todos los derechos reservados</footer>
 </body>
